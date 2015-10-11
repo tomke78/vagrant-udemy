@@ -38,3 +38,6 @@ sudo -u vagrant wget -q https://raw.githubusercontent.com/tomke78/vagrant-udemy/
 sudo -u vagrant wget -q https://raw.githubusercontent.com/tomke78/vagrant-udemy/master/files/info.php
 
 service httpd restart
+
+# Forwarding port 80
+sudo sed -i 's/COMMIT/-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT \nCOMMIT' /etc/sysconfig/iptables
