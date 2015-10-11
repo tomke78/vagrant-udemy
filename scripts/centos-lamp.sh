@@ -41,3 +41,4 @@ sudo service httpd restart
 
 # Forwarding port 80
 sudo sed -i "s/COMMIT/-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT\nCOMMIT/g" /etc/sysconfig/iptables
+sudo service iptables restart
