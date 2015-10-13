@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Apache
+yum install -y httpd httpd-devel httpd-tools
+# Autostart apache
+chkconfig --add httpd
+chkconfig httpd on
+service httpd stop
+
+rm -rf /var/www/html
+ln -s /vagrant /var/www/html
+
+service httpd start
+
+# PHP
+yum install -y php php-cli php-common php-devel php-mysql
+
+# Download Starter Content
+cd /vagrant
+sudo -u vagrant wget -q https://raw.githubusercontent.com/tomke78/vagrant-udemy/master/files/index.html
+
+sudo -u vagrant wget -q https://raw.githubusercontent.com/tomke78/vagrant-udemy/master/files/info.php
+
+sudo service httpd restart
+
+# Forwarding port 80
+sudo sed -i "s/COMMIT/-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT\nCOMMIT/g" /etc/sysconfig/iptables
+sudo service iptables restart
